@@ -8,7 +8,7 @@ export default class CategoriaDAO{
             const parametros = [categoria.descricao];
             const conexao = await conectar(); //retorna uma conexão
             const retorno = await conexao.execute(sql,parametros); //prepara a sql e depois executa
-            categoria.id = retorno[0].insertId;
+            categoria.codigo = retorno[0].insertId;
             global.poolConexoes.releaseConnection(conexao);
         }
     }
@@ -47,10 +47,8 @@ export default class CategoriaDAO{
             if (!parametroConsulta){
                 parametroConsulta = '';
             }
-            else{
-                sql = "SELECT * FROM categoria WHERE cat_descricao like ?";
-                parametros = ['%'+parametroConsulta+'%'];
-            }
+            sql = "SELECT * FROM categoria WHERE cat_descricao like ?";
+            parametros = ['%'+parametroConsulta+'%'];
         }
         const conexao = await conectar();
         const [registros, campos] = await conexao.execute(sql,parametros);
