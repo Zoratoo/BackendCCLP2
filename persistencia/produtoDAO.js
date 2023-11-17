@@ -43,13 +43,13 @@ export default class ProdutoDAO {
     }
 
     async consultar(termo) {
-        if (!termo){
-            termo="";
+        if (!termo) {
+            termo = "";
         }
         //termo é um número
         const conexao = await conectar();
         let listaProdutos = [];
-        if (!isNaN(Number(termo))){
+        if (!isNaN(Number(termo))) {
             //consulta pelo código do produto
             const sql = `SELECT p.prod_codigo, p.prod_descricao,
               p.prod_precoCusto, p.prod_precoVenda, p.prod_dataValidade, 
@@ -59,19 +59,18 @@ export default class ProdutoDAO {
               WHERE p.prod_codigo = ?
               ORDER BY p.prod_descricao               
             `;
-            const parametros=[termo];
-            const [registros, campos] = await conexao.execute(sql,parametros);
-            for (const registro of registros){
-                const categoria = new Categoria(registro.cat_codigo,registro.cat_descricao);
-                const produto = new Produto(registro.prod_codigo,registro.prod_descricao,
-                                            registro.prod_precoCusto,registro.prod_precoVenda,
-                                            registro.prod_dataValidade, registro.prod_qtdEstoque,
-                                            categoria);
+            const parametros = [termo];
+            const [registros, campos] = await conexao.execute(sql, parametros);
+            for (const registro of registros) {
+                const categoria = new Categoria(registro.cat_codigo, registro.cat_descricao);
+                const produto = new Produto(registro.prod_codigo, registro.prod_descricao,
+                    registro.prod_precoCusto, registro.prod_precoVenda,
+                    registro.prod_dataValidade, registro.prod_qtdEstoque,
+                    categoria);
                 listaProdutos.push(produto);
             }
         }
-        else
-        {
+        else {
             //consulta pela descrição do produto
             const sql = `SELECT p.prod_codigo, p.prod_descricao,
               p.prod_precoCusto, p.prod_precoVenda, p.prod_dataValidade, 
@@ -81,14 +80,14 @@ export default class ProdutoDAO {
               WHERE p.prod_descricao like ?
               ORDER BY p.prod_descricao               
             `;
-            const parametros=['%'+termo+'%'];
-            const [registros, campos] = await conexao.execute(sql,parametros);
-            for (const registro of registros){
-                const categoria = new Categoria(registro.cat_codigo,registro.cat_descricao);
-                const produto = new Produto(registro.prod_codigo,registro.prod_descricao,
-                                            registro.prod_precoCusto,registro.prod_precoVenda,
-                                            registro.prod_dataValidade, registro.prod_qtdEstoque,
-                                            categoria);
+            const parametros = ['%' + termo + '%'];
+            const [registros, campos] = await conexao.execute(sql, parametros);
+            for (const registro of registros) {
+                const categoria = new Categoria(registro.cat_codigo, registro.cat_descricao);
+                const produto = new Produto(registro.prod_codigo, registro.prod_descricao,
+                    registro.prod_precoCusto, registro.prod_precoVenda,
+                    registro.prod_dataValidade, registro.prod_qtdEstoque,
+                    categoria);
                 listaProdutos.push(produto);
             }
         }

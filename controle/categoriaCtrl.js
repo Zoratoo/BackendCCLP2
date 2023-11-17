@@ -119,29 +119,28 @@ export default class CategoriaCtrl {
         //express, por meio do controle de rotas, será
         //preparado para esperar um termo de busca
         let termo = requisicao.params.termo;
-        if (!termo){
+        if (!termo) {
             termo = "";
         }
-        if (requisicao.method === "GET"){
+        if (requisicao.method === "GET") {
             const categoria = new Categoria();
-            categoria.consultar(termo).then((listaCategorias)=>{
+            categoria.consultar(termo).then((listaCategorias) => {
                 resposta.json(
                     {
-                        status:true,
+                        status: true,
                         listaCategorias
                     });
             })
-            .catch((erro)=>{
-                resposta.json(
-                    {
-                        status:false,
-                        mensagem:"Não foi possível obter as categorias: " + erro.message
-                    }
-                );
-            });
+                .catch((erro) => {
+                    resposta.json(
+                        {
+                            status: false,
+                            mensagem: "Não foi possível obter as categorias: " + erro.message
+                        }
+                    );
+                });
         }
-        else 
-        {
+        else {
             resposta.status(400).json({
                 "status": false,
                 "mensagem": "Por favor, utilize o método GET para consultar categorias!"

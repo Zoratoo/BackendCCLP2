@@ -16,9 +16,9 @@ export default class ProdutoCtrl {
 
             if (descricao && precoCusto > 0 && precoVenda > 0 && dataValidade
                 && qtdEstoque >= 0 && categoria) {
-                const produto = new Produto(0, descricao,precoCusto,
-                                            precoVenda, dataValidade,qtdEstoque,
-                                            categoria);
+                const produto = new Produto(0, descricao, precoCusto,
+                    precoVenda, dataValidade, qtdEstoque,
+                    categoria);
                 //resolver a promise
                 produto.gravar().then(() => {
                     resposta.status(200).json({
@@ -62,8 +62,8 @@ export default class ProdutoCtrl {
             const categoria = dados.categoria;
             if (codigo && descricao && precoCusto > 0 && precoVenda > 0 && dataValidade
                 && qtdEstoque >= 0 && categoria) {
-                const produto = new Produto(codigo,descricao,precoCusto,
-                    precoVenda, dataValidade,qtdEstoque, categoria);
+                const produto = new Produto(codigo, descricao, precoCusto,
+                    precoVenda, dataValidade, qtdEstoque, categoria);
                 //resolver a promise
                 produto.atualizar().then(() => {
                     resposta.status(200).json({
@@ -141,20 +141,17 @@ export default class ProdutoCtrl {
         if (requisicao.method === "GET") {
             const produto = new Produto();
             produto.consultar(termo).then((listaProdutos) => {
-                resposta.json(
-                    {
-                        status: true,
-                        listaProdutos
-                    });
-            })
-                .catch((erro) => {
-                    resposta.json(
-                        {
-                            status: false,
-                            mensagem: "Não foi possível obter os produtos: " + erro.message
-                        }
-                    );
+                resposta.json({
+                    status: true,
+                    listaProdutos
                 });
+            }).catch((erro) => {
+                resposta.json({
+                    status: false,
+                    mensagem: "Não foi possível obter os produtos: " + erro.message
+                }
+                );
+            });
         }
         else {
             resposta.status(400).json({
